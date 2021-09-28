@@ -33,7 +33,7 @@ let imagesSection = document.querySelector('#all-products');
 let leftImageRandom, centerImageRandom, rightImageRandom;
 let totalClicks = 0;
 let rounds = document.getElementById('rounds');
-let numberRounds =0;
+let numberRounds = 0;
 let imagesPerRound = [];
 
 
@@ -79,7 +79,7 @@ function clicks(e) {
   if (e.target.id === 'left-side-img') {
     leftImageRandom.numberClicks++;
     totalClicks++,
-    randomImage();
+      randomImage();
     numberRounds++;
   }
 
@@ -102,26 +102,40 @@ function clicks(e) {
     centerImage.remove();
     rightSideImage.remove();
     rounds.textContent = ('');
-    let results = JSON.stringify(products);
-    localStorage.setItem('voteResults', results);
-    let voteResults = localStorage.getItem('voteResults');
-    products = JSON.parse(voteResults);
-    let finalReport = document.getElementById('finalReport');
-    finalReport.textContent = 'Thank you for participating, here are your voting results :';
-    let report = document.getElementById('report');
-    for (let j =0; j< products.length; j++){
-      let reportList = document.createElement('li');
-      reportList.textContent = `${products[j].imageName} had ${products[j].numberClicks} votes and was shown ${products[j].numberViews} times`;
-      report.appendChild(reportList);
+
+    // Lines 108-111 displays button, but doesn't respond to click
+
+    let buttonEl = document.createElement('button');
+    buttonEl.innerText = 'View results';
+    buttonEl.id = 'button-id';
+    document.getElementById('image-group').appendChild(buttonEl);
+
+    // Line 115 displays button prior to result, but also doesn't respond to click
+
+    document.getElementById('button-id').addEventListener('click', showResults);
+function showResults() {
+      let results = JSON.stringify(products);
+      localStorage.setItem('voteResults', results);
+      let voteResults = localStorage.getItem('voteResults');
+      products = JSON.parse(voteResults);
+      let finalReport = document.getElementById('finalReport');
+      finalReport.textContent = 'Thank you for participating, here are your voting results :';
+      let report = document.getElementById('report');
+      for (let j = 0; j < products.length; j++) {
+        let reportList = document.createElement('li');
+        reportList.textContent = `${products[j].imageName} had ${products[j].numberClicks} votes and was shown ${products[j].numberViews} times`;
+        report.appendChild(reportList);
+      }
+
+      renderChart();
     }
-    renderChart();
   }
 }
-function renderChart(){
+function renderChart() {
   let productsNames = [];
   let productsClicks = [];
-  let productsViews =[];
-  for(let i = 0 ; i < products.length ; i++){
+  let productsViews = [];
+  for (let i = 0; i < products.length; i++) {
     let productName = products[i].imageName;
     productsNames.push(productName);
     let productLikes = products[i].numberClicks;
