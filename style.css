@@ -1,0 +1,55 @@
+body {
+    line-height: 1;
+    background-color: lavender;
+}
+header{
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    font-size: x-large;
+    background-color: brown;
+    color: bisque;
+    width: 760px;
+}
+main{
+    margin-top: 100px;
+}
+section {
+    margin-left: 300px;}
+p#rounds {
+    padding-bottom: 50px;
+    margin-left: 350px;
+}
+div{
+    display: inline;
+    line-height: 2px;
+    margin: 50px;}
+img{
+    width: 300px;
+    height: 300px;
+    border-radius: 100px;
+}
+#finalReport {
+    padding: 15px;
+    font-size: larger;
+}
+ul {
+    list-style: disc;
+}
+li {
+    padding: 20px;
+    font-size: larger;
+}
+section#canvas {
+    margin-left: 10px;
+    margin-top: 100px;
+}
+footer {
+    text-align: center;
+    background-color: blueviolet;
+    padding: 50px;
+    margin-top: 100px;
+}
