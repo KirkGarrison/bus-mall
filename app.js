@@ -25,6 +25,7 @@ let productUrl = [
   'water-can.jpg',
   'wine-glass.jpg'
 ];
+
 let products = [];
 let leftSideImage = document.querySelector('#left-side-img');
 let centerImage = document.querySelector('#center-img');
@@ -35,6 +36,8 @@ let totalClicks = 0;
 let rounds = document.getElementById('rounds');
 let numberRounds = 0;
 let imagesPerRound = [];
+const previousDataEl = document.getElementById('results');
+const previousData = getVotesToRender() || [];
 
 
 function Product(url) {
@@ -68,9 +71,11 @@ function randomImage() {
   rightSideImage.setAttribute('alt', rightImageRandom.imageName);
   rightImageRandom.numberViews++;
 }
+
 for (let i = 0; i < productUrl.length; i++) {
   new Product(productUrl[i]);
 }
+
 randomImage();
 numberRounds++;
 rounds.textContent = ('Round :' + numberRounds);
@@ -103,49 +108,52 @@ function clicks(e) {
     rightSideImage.remove();
     rounds.textContent = ('');
 
-    // Lines 108-111 displays button, but doesn't respond to click
-
     let buttonEl = document.createElement('button');
     buttonEl.innerText = 'View results';
     buttonEl.id = 'button-id';
     document.getElementById('image-group').appendChild(buttonEl);
-
-    // Line 115 displays button prior to result, but also doesn't respond to click
-    // fixed display and button issues, now have an error, but code runs correctly.
-
-    document.getElementById('button-id').addEventListener('click', showResults);
-function showResults() {
-      let results = JSON.stringify(products);
-      localStorage.setItem('voteResults', results);
-      let voteResults = localStorage.getItem('voteResults');
-      products = JSON.parse(voteResults);
-      let finalReport = document.getElementById('finalReport');
-      finalReport.textContent = 'Thank you for participating, here are your voting results :';
-      let report = document.getElementById('report');
-      for (let j = 0; j < products.length; j++) {
-        let reportList = document.createElement('li');
-        reportList.textContent = `${products[j].imageName} had ${products[j].numberClicks} votes and was shown ${products[j].numberViews} times`;
-        report.appendChild(reportList);
-      }
-
-      renderChart();
+    document
+      .getElementById('button-id')
+      .addEventListener('click', 
+                        () => { showResults(products); }
+      );
     }
+
+  function showResults(products) {
+    let results = JSON.stringify(products);
+    localStorage.setItem('voteResults', results);
+    let voteResults = localStorage.getItem('voteResults');
+    products = JSON.parse(voteResults);
+    let finalReport = document.getElementById('finalReport');
+    finalReport.textContent = 'Thank you for participating, here are your voting results :';
+    let report = document.getElementById('report');
+    for (let j = 0; j < products.length; j++) {
+      let reportList = document.createElement('li');
+      reportList.textContent = `${products[j].imageName} had ${products[j].numberClicks} votes and was shown ${products[j].numberViews} times`;
+      report.appendChild(reportList);
+    }
+
+    let productsNames = [];
+    let productsClicks = [];
+    let productsViews = [];
+
+    for (let i = 0; i < products.length; i++) {
+      let currentProduct = products[i];
+
+      productsNames.push(currentProduct.imageName);
+      productsClicks.push(currentProduct.numberClicks);
+      productsViews.push(currentProduct.numberViews);
+    }
+
+    renderChart(productsNames, productsClicks, productsViews);
   }
 }
-function renderChart() {
-  let productsNames = [];
-  let productsClicks = [];
-  let productsViews = [];
-  for (let i = 0; i < products.length; i++) {
-    let productName = products[i].imageName;
-    productsNames.push(productName);
-    let productLikes = products[i].numberClicks;
-    productsClicks.push(productLikes);
-    let productView = products[i].numberViews;
-    productsViews.push(productView);
-  }
+
+function renderChart(productsNames, productsClicks, productsViews) {
+
   let ctx = document.getElementById('chart').getContext('2d');
-  let chart = new Chart(ctx, {
+
+  new Chart(ctx, {
     type: 'bar',
     data: {
       labels: productsNames,
@@ -174,3 +182,19 @@ function renderChart() {
     }
   });
 }
+
+// Create a function that renders the previous votes into the results of the current votes
+function getVotesToRender() {
+  const jsonData = localStorage.getItem('voteResults');
+  console.log(jsonData + "Hello tester");
+  let parsedData = JSON.parse(jsonData);
+  console.log(parsedData);
+  return parsedData;
+}
+
+function saveData (data) {
+  previousData.push(data);
+  let stringifiedData = JSON.stringify(previousData);
+  localStorage.setItem('report', stringifiedData);
+}
+saveData();
