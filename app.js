@@ -111,6 +111,7 @@ function clicks(e) {
     document.getElementById('image-group').appendChild(buttonEl);
 
     // Line 115 displays button prior to result, but also doesn't respond to click
+    // fixed display and button issues, now have an error, but code runs correctly.
 
     document.getElementById('button-id').addEventListener('click', showResults);
 function showResults() {
