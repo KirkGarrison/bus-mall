@@ -36,9 +36,6 @@ let totalClicks = 0;
 let rounds = document.getElementById('rounds');
 let numberRounds = 0;
 let imagesPerRound = [];
-const previousDataEl = document.getElementById('results');
-const previousData = getVotesToRender() || [];
-
 
 function Product(url) {
   this.imageUrl = `img/${url}`;
@@ -183,18 +180,9 @@ function renderChart(productsNames, productsClicks, productsViews) {
   });
 }
 
-// Create a function that renders the previous votes into the results of the current votes
-function getVotesToRender() {
-  const jsonData = localStorage.getItem('voteResults');
-  console.log(jsonData + "Hello tester");
-  let parsedData = JSON.parse(jsonData);
-  console.log(parsedData);
-  return parsedData;
-}
-
-function saveData (data) {
-  previousData.push(data);
-  let stringifiedData = JSON.stringify(previousData);
-  localStorage.setItem('report', stringifiedData);
-}
-saveData();
+//Create a function that renders the previous votes into the results of the current votes
+// localStorage.setItem('voteResults', JSON.stringify(Product.productUrl));
+ 
+// if (localStorage.getItem('voteResults')) {
+//   Product.productUrl = JSON.parse(localStorage.getItem('voteResults'));
+// }
