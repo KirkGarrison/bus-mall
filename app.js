@@ -81,7 +81,7 @@ function clicks(e) {
   if (e.target.id === 'left-side-img') {
     leftImageRandom.numberClicks++;
     totalClicks++,
-      randomImage();
+    randomImage();
     numberRounds++;
   }
 
@@ -111,10 +111,10 @@ function clicks(e) {
     document.getElementById('image-group').appendChild(buttonEl);
     document
       .getElementById('button-id')
-      .addEventListener('click', 
-                        () => { showResults(products); }
+      .addEventListener('click',
+        () => { showResults(products); }
       );
-    }
+  }
 
   function showResults(products) {
     let results = JSON.stringify(products);
@@ -182,7 +182,7 @@ function renderChart(productsNames, productsClicks, productsViews) {
 
 //Create a function that renders the previous votes into the results of the current votes
 // localStorage.setItem('voteResults', JSON.stringify(Product.productUrl));
- 
+
 // if (localStorage.getItem('voteResults')) {
 //   Product.productUrl = JSON.parse(localStorage.getItem('voteResults'));
 // }
